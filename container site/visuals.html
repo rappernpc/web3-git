@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Chris Garbutt Web Thr33</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  
+      
+</head>
+<body>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+var width = 960,
+    height = 500,
+    outerRadius = Math.min(width, height) * .5 - 10,
+    innerRadius = outerRadius * .6;
+
+var n = 10,
+    data0 = d3.range(n).map(Math.random),
+    data1 = d3.range(n).map(Math.random),
+    data;
+
+var color = d3.scale.category20();
+
+var arc = d3.svg.arc();
+
+var pie = d3.layout.pie()
+    .sort(null);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.selectAll(".arc")
+    .data(arcs(data0, data1))
+  .enter().append("g")
+    .attr("class", "arc")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+  .append("path")
+    .attr("fill", function(d, i) { return color(i); })
+    .attr("d", arc);
+
+transition(1);
+
+function arcs(data0, data1) {
+  var arcs0 = pie(data0),
+      arcs1 = pie(data1),
+      i = -1,
+      arc;
+  while (++i < n) {
+    arc = arcs0[i];
+    arc.innerRadius = innerRadius;
+    arc.outerRadius = outerRadius;
+    arc.next = arcs1[i];
+  }
+  return arcs0;
+}
+
+function transition(state) {
+  var path = d3.selectAll(".arc > path")
+      .data(state ? arcs(data0, data1) : arcs(data1, data0));
+
+  // Wedges split into two rings.
+  var t0 = path.transition()
+      .duration(1000)
+      .attrTween("d", tweenArc(function(d, i) {
+        return {
+          innerRadius: i & 1 ? innerRadius : (innerRadius + outerRadius) / 2,
+          outerRadius: i & 1 ? (innerRadius + outerRadius) / 2 : outerRadius
+        };
+      }));
+
+  // Wedges translate to be centered on their final position.
+  var t1 = t0.transition()
+      .attrTween("d", tweenArc(function(d, i) {
+        var a0 = d.next.startAngle + d.next.endAngle,
+            a1 = d.startAngle - d.endAngle;
+        return {
+          startAngle: (a0 + a1) / 2,
+          endAngle: (a0 - a1) / 2
+        };
+      }));
+
+  // Wedges then update their values, changing size.
+  var t2 = t1.transition()
+        .attrTween("d", tweenArc(function(d, i) {
+          return {
+            startAngle: d.next.startAngle,
+            endAngle: d.next.endAngle
+          };
+        }));
+
+  // Wedges reunite into a single ring.
+  var t3 = t2.transition()
+      .attrTween("d", tweenArc(function(d, i) {
+        return {
+          innerRadius: innerRadius,
+          outerRadius: outerRadius
+        };
+      }));
+
+  setTimeout(function() { transition(!state); }, 5000);
+}
+
+function tweenArc(b) {
+  return function(a, i) {
+    var d = b.call(this, a, i), i = d3.interpolate(a, d);
+    for (var k in d) a[k] = d[k]; // update data
+    return function(t) { return arc(i(t)); };
+  };
+}
+
+</script>
+
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="two columns">
+      <h1>CG</h1>  
+    </div>
+    <div id="nav" class="fourteen columns">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="data.html">Data</a></li>
+        <li><a href="visuals.html">Visuals</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+
+    <div id="image" class="sixteen columns">
+     <svg width="960" height="500"><g class="arc" transform="translate(480,250)"><path fill="#1f77b4" d=""></path></g><g class="arc" transform="translate(480,250)"><path fill="#aec7e8" d="M203.3733031615285,-127.43351035410198A240,240 0 0,1 234.05608910960714,53.08245614810636L140.43365346576428,31.849473688863817A144,144 0 0,0 122.0239818969171,-76.46010621246118Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#ff7f0e" d="M234.05608910960714,53.08245614810636A240,240 0 0,1 231.43691907862703,63.53701667054445L138.86215144717622,38.122210002326675A144,144 0 0,0 140.43365346576428,31.849473688863817Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#ffbb78" d="M231.43691907862703,63.53701667054445A240,240 0 0,1 132.43566837176184,200.151926653042L79.4614010230571,120.09115599182522A144,144 0 0,0 138.86215144717622,38.122210002326675Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#2ca02c" d="M132.43566837176184,200.151926653042A240,240 0 0,1 18.125274264816056,239.31459302103832L10.875164558889635,143.588755812623A144,144 0 0,0 79.4614010230571,120.09115599182522Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#98df8a" d="M18.125274264816056,239.31459302103832A240,240 0 0,1 -174.70857535378147,164.5506417424498L-104.82514521226888,98.73038504546989A144,144 0 0,0 10.875164558889635,143.588755812623Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#d62728" d="M-174.70857535378147,164.5506417424498A240,240 0 0,1 -238.91421832709966,-22.803426960677587L-143.3485309962598,-13.682056176406551A144,144 0 0,0 -104.82514521226888,98.73038504546989Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#ff9896" d="M-238.91421832709966,-22.803426960677587A240,240 0 0,1 -146.78947574117998,-189.87588001541832L-88.07368544470799,-113.925528009251A144,144 0 0,0 -143.3485309962598,-13.682056176406551Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#9467bd" d="M-146.78947574117998,-189.87588001541832A240,240 0 0,1 -118.20986914556619,-208.8694013889735L-70.9259214873397,-125.3216408333841A144,144 0 0,0 -88.07368544470799,-113.925528009251Z"></path></g><g class="arc" transform="translate(480,250)"><path fill="#c5b0d5" d="M-118.20986914556619,-208.8694013889735A240,240 0 0,1 -2.5725010549733476e-13,-240L-1.5435006329840085e-13,-144A144,144 0 0,0 -70.9259214873397,-125.3216408333841Z"></path></g></svg>
+    
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

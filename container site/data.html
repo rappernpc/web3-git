@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Chris Garbutt Web Thr33</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- Script for earth -->
+
+  <script src="http://www.webglearth.com/v2/api.js"></script>
+  <script>
+  function initialize() {
+    var options = { zoom: 3, position: [47.19537,-100.524404] };
+    var earth = new WE.map('earth_div', options); 
+    
+    var options = { bounds: [[-84, -179],[84, 179]], 
+                minZoom: 2,
+                maxZoom: 18 };
+                var watercolor = WE.tileLayer('https://a.tiles.mapbox.com/v4/landplanner.f505d476/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoibGFuZHBsYW5uZXIiLCJhIjoicUtlZGgwYyJ9.UFYz8MD4lI4kIzk9bjGFvg', options); 
+                watercolor.addTo(earth);
+  }
+ </script>
+  <style>
+    body { margin:0;position:fixed;top:0;right:0;bottom:0;left:0;font-family:sans-serif }
+  </style>
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="two columns">
+      <h1>CG</h1>  
+    </div>
+    <div id="nav" class="fourteen columns">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="data.html">Data</a></li>
+        <li><a href="visuals.html">Visuals</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+
+    <div id="Image" class="sixteen columns">
+      <body onload="initialize()">
+        <div id="earth_div" style="width:100%;height:100%;border:0px solid gray; padding:2px;"></div>
+      </body>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
